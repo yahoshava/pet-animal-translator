@@ -146,11 +146,11 @@
   .chip:active{transform:scale(.95);}
   .chip[aria-pressed="true"]{background:var(--signal); border-color:var(--signal); color:#fff;}
   .chip[aria-pressed="true"] small{color:rgba(255,255,255,.72);}
-  :root:not([data-theme="light"]) .chip[aria-pressed="true"],
-  :root[data-theme="dark"] .chip[aria-pressed="true"]{color:#08130F;}
   @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .chip[aria-pressed="true"]{color:#08130F;}
     :root:not([data-theme="light"]) .chip[aria-pressed="true"] small{color:rgba(8,19,15,.66);}
   }
+  :root[data-theme="dark"] .chip[aria-pressed="true"]{color:#08130F;}
   :root[data-theme="dark"] .chip[aria-pressed="true"] small{color:rgba(8,19,15,.66);}
 
   .scope{
