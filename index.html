@@ -378,7 +378,7 @@
   <section>
     <p class="sec-label"><span>02 &nbsp;/&nbsp; Sound lab</span><span class="hint">tap a sound &rarr;</span></p>
     <h2>Run one through it</h2>
-    <p>Pick a sound. The lab shows you what a translator app would print, how confident it would look while printing it &mdash; and what the sound genuinely encodes underneath.</p>
+    <p>Pick a sound and listen to it. The lab plays the real recording, shows what a translator app would print, how confident it would look while printing it &mdash; and what the sound genuinely encodes underneath.</p>
 
     <div class="lab" id="lab">
       <div class="chips" id="chips" role="group" aria-label="Choose an animal sound"></div>
@@ -513,7 +513,11 @@
 
   <footer>
     Pet Animal Translator &mdash; introduction, advantages and disadvantages.<br>
-    Frequency ranges are typical published values for domestic dogs and cats; individual animals vary.
+    Frequency ranges are typical published values for domestic dogs and cats; individual animals vary.<br><br>
+    Sound credits &mdash; bark, whine, growl and meow: Freesound #483180, #350593, #625500, #256452 (CC0).
+    Purr: &lsquo;Purring cat bertie&rsquo;, Wikimedia Commons (public domain).
+    Hiss: &lsquo;Cat hissing &ndash; Zabuhailo&rsquo;, Wikimedia Commons (CC0).
+    Clips trimmed and loudness-normalised; peak frequencies measured from these files.
   </footer>
 </div>
 
@@ -781,34 +785,69 @@
       }
     };
 
+    /* the oscillators above are only a fallback for when a recording will not load */
+    function synth(id){
+      if(!VOICES[id]){ return 0; }
+      var c = get();
+      if(!c){ return 0; }
+      stopAll();
+      return VOICES[id](c, c.currentTime + 0.02);
+    }
+
+    /* real recordings: public-domain and CC0 clips, measured durations in ms */
+    var DUR = {bark:610, whine:1080, growl:2260, meow:1550, purr:4500, hiss:2320};
+    var clips = {}, playing = null;
+
+    function clip(id){
+      if(!clips[id]){
+        var a = new Audio("audio/" + id + ".mp3");
+        a.preload = "auto";
+        a.addEventListener("error", function(){ a.broken = true; });
+        clips[id] = a;
+      }
+      return clips[id];
+    }
+
+    function hush(){
+      if(playing){
+        try{ playing.pause(); playing.currentTime = 0; }catch(e){}
+        playing = null;
+      }
+      stopAll();
+    }
+
     return {
-      supported: !!(window.AudioContext || window.webkitAudioContext),
+      supported: !!window.Audio,
       isMuted: function(){ return muted; },
       toggle: function(){
         muted = !muted;
-        if(muted){ stopAll(); }
+        if(muted){ hush(); }
         return muted;
       },
       play: function(id){
-        if(muted || !VOICES[id]){ return 0; }
-        var c = get();
-        if(!c){ return 0; }
-        stopAll();
-        return VOICES[id](c, c.currentTime + 0.02);
+        if(muted || !DUR[id]){ return 0; }
+        hush();
+        var a = clip(id);
+        if(a.broken){ return synth(id); }
+        try{ a.currentTime = 0; }catch(e){}
+        playing = a;
+        var p = a.play();
+        if(p && p["catch"]){ p["catch"](function(){ synth(id); }); }
+        return DUR[id];
       }
     };
   })();
 
   /* ---------------- selection + playback ---------------- */
   var NOTES = {
-    purr: "Synthesized at 27 Hz. If your speaker sounds thin, that is the point — a phone cannot move air that slowly, so you hear the harmonics, not the rumble you would feel with a hand on the cat.",
-    hiss: "Synthesized broadband noise, 2–10 kHz — the one signal a small speaker reproduces honestly.",
-    growl: "Synthesized at 88 Hz with 26 Hz roughness — the low buzz that makes a growl read as a growl.",
-    bark: "Synthesized bursts — close in shape and timing, nothing like your own dog. That gap is the point.",
-    meow: "Synthesized formant sweep — a generic cat. Yours invented a different one for your kitchen.",
-    whine: "Synthesized rising sweep — the contour is right, the animal behind it is missing."
+    bark:  "Real recording · Freesound #483180 (CC0). One alarm bark, 0.6 s — that is the whole sample a collar gets to classify.",
+    whine: "Real recording · Chihuahua puppy, Freesound #350593 (CC0). Peak energy at 708 Hz, inside the published 300–1200 Hz band.",
+    growl: "Real recording · Freesound #625500 (CC0). Peak energy at 112 Hz — the low band a growl lives in.",
+    meow:  "Real recording · Freesound #256452 (CC0). One cat, one household, one learned dialect.",
+    purr:  "Real recording · &lsquo;Purring cat bertie&rsquo;, Wikimedia Commons (public domain). Peak energy at 29 Hz — if your phone sounds thin, that is the fundamental your speaker cannot move.",
+    hiss:  "Real recording · &lsquo;Cat hissing – Zabuhailo&rsquo;, Wikimedia Commons (CC0). Broadband noise centred near 4.7 kHz."
   };
-  var DEFAULT_NOTE = "Synthesized from the frequency data — not a recording.";
+  var DEFAULT_NOTE = "Real recordings — public-domain and CC0 clips, credited in the footer.";
 
   var synthNote = document.getElementById("synth");
   var playBtn = document.getElementById("play");
@@ -849,7 +888,7 @@
     el.confBar.style.width = "0%";
     el.realBar.style.width = "0%";
     el.quote.textContent = "analysing…";
-    synthNote.textContent = NOTES[s.id] || DEFAULT_NOTE;
+    synthNote.innerHTML = NOTES[s.id] || DEFAULT_NOTE;
     clearInterval(jitter);
     lab.classList.remove("playing");
     paint(s.shape);
@@ -879,7 +918,7 @@
     chipsBox.appendChild(c);
   });
   paint(SOUNDS[0].shape);
-  synthNote.textContent = NOTES[SOUNDS[0].id] || DEFAULT_NOTE;
+  synthNote.innerHTML = NOTES[SOUNDS[0].id] || DEFAULT_NOTE;
 
   var ICON_ON  = '<path d="M7 2.5L3.8 5H1.5v6h2.3L7 13.5zM10.2 5.4a3.6 3.6 0 010 5.2l.9.9a4.9 4.9 0 000-7z"/>';
   var ICON_OFF = '<path d="M7 2.5L3.8 5H1.5v6h2.3L7 13.5zM10.1 6.3l.9-.9 1.5 1.5 1.5-1.5.9.9L12.4 8l1.5 1.5-.9.9-1.5-1.5-1.5 1.5-.9-.9L10.6 8z"/>';
