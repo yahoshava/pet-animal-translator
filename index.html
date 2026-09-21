@@ -3,68 +3,68 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="An introduction to pet animal translators, with their real advantages and their limits.">
+<meta name="description" content="Tap a bark, a purr, a growl — and see what a pet translator would claim versus what the sound actually carries.">
 <meta name="theme-color" content="#F2F5F3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0D1513" media="(prefers-color-scheme: dark)">
 <meta property="og:title" content="Pet Animal Translator">
-<meta property="og:description" content="What a pet translator actually is, what it genuinely gives you, and where it breaks.">
+<meta property="og:description" content="Tap a sound, take the quiz, tip the scale. What a pet translator really does — and where it breaks.">
 <meta property="og:type" content="article">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ctext y=%2726%27 font-size=%2726%27%3E%F0%9F%90%BE%3C/text%3E%3C/svg%3E">
-<style>
-  *,*::before,*::after{box-sizing:border-box}
-  html{color-scheme:light dark}
-  :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-  body{margin:0}
-  img{max-width:100%}
-  [hidden]{display:none!important}
-</style>
 <title>Pet Animal Translator</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Public+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
+  *,*::before,*::after{box-sizing:border-box}
+  html{color-scheme:light dark}
+  :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+
   :root{
     --paper:#F2F5F3;
     --panel:#FFFFFF;
+    --panel-2:#F7FAF8;
     --ink:#11201C;
     --ink-soft:#4B5C57;
+    --ink-faint:#8A9995;
     --rule:#D6DEDA;
     --signal:#0C6D67;
     --signal-wash:#DCEBE9;
     --warn:#A2412A;
     --warn-wash:#F3E2DC;
+    --spark:#9A6B16;
+    --spark-wash:#F5E9D2;
     --shadow:0 1px 2px rgba(17,32,28,.06), 0 8px 24px rgba(17,32,28,.05);
+    --lift:0 2px 4px rgba(17,32,28,.08), 0 12px 28px rgba(17,32,28,.10);
     --display:"Fraunces", Georgia, "Times New Roman", serif;
     --body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
     --mono:"IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --paper:#0D1513;
-      --panel:#151E1B;
-      --ink:#E7EEEA;
-      --ink-soft:#97A8A2;
+      --paper:#0D1513; --panel:#151E1B; --panel-2:#111A17;
+      --ink:#E7EEEA; --ink-soft:#97A8A2; --ink-faint:#6D7D78;
       --rule:#25322E;
-      --signal:#48BFB2;
-      --signal-wash:#132A28;
-      --warn:#E28564;
-      --warn-wash:#2B1C17;
+      --signal:#48BFB2; --signal-wash:#132A28;
+      --warn:#E28564; --warn-wash:#2B1C17;
+      --spark:#E0AC53; --spark-wash:#2A2113;
       --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.28);
+      --lift:0 2px 4px rgba(0,0,0,.45), 0 14px 30px rgba(0,0,0,.4);
     }
   }
   :root[data-theme="dark"]{
-    --paper:#0D1513;
-    --panel:#151E1B;
-    --ink:#E7EEEA;
-    --ink-soft:#97A8A2;
+    --paper:#0D1513; --panel:#151E1B; --panel-2:#111A17;
+    --ink:#E7EEEA; --ink-soft:#97A8A2; --ink-faint:#6D7D78;
     --rule:#25322E;
-    --signal:#48BFB2;
-    --signal-wash:#132A28;
-    --warn:#E28564;
-    --warn-wash:#2B1C17;
+    --signal:#48BFB2; --signal-wash:#132A28;
+    --warn:#E28564; --warn-wash:#2B1C17;
+    --spark:#E0AC53; --spark-wash:#2A2113;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.28);
+    --lift:0 2px 4px rgba(0,0,0,.45), 0 14px 30px rgba(0,0,0,.4);
   }
 
   body{
+    margin:0;
     background:var(--paper);
     color:var(--ink);
     font-family:var(--body);
@@ -73,198 +73,240 @@
     -webkit-font-smoothing:antialiased;
   }
   .wrap{
-    max-width:660px;
+    max-width:680px;
     margin-inline:auto;
     padding-inline:20px;
-    padding-block:28px 56px;
+    padding-block:28px 0;
   }
   h1,h2,h3{font-family:var(--display); text-wrap:balance; margin:0;}
   p{margin:0;}
+  button{font:inherit; color:inherit; cursor:pointer;}
+  :focus-visible{outline:2px solid var(--signal); outline-offset:3px; border-radius:2px;}
 
   .eyebrow{
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--signal);
-    margin:0 0 14px;
+    font-family:var(--mono); font-size:11px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--signal); margin:0 0 14px;
   }
-
-  h1{
-    font-size:clamp(34px, 9vw, 52px);
-    font-weight:800;
-    line-height:1.04;
-    letter-spacing:-.02em;
-  }
-  .standfirst{
-    margin-top:14px;
-    font-size:17px;
-    color:var(--ink-soft);
-    max-width:52ch;
-  }
+  h1{font-size:clamp(34px,9vw,52px); font-weight:800; line-height:1.04; letter-spacing:-.02em;}
+  .standfirst{margin-top:14px; font-size:17px; color:var(--ink-soft); max-width:52ch;}
 
   .strip{
-    display:flex;
-    align-items:flex-end;
-    gap:3px;
-    height:56px;
-    margin-top:26px;
-    padding:10px 12px;
-    background:var(--panel);
-    border:1px solid var(--rule);
-    border-radius:3px;
-    overflow:hidden;
+    display:flex; align-items:flex-end; gap:3px; height:56px;
+    margin-top:26px; padding:10px 12px;
+    background:var(--panel); border:1px solid var(--rule); border-radius:3px; overflow:hidden;
   }
   .strip i{
-    display:block;
-    flex:1 1 auto;
-    min-width:2px;
-    background:var(--signal);
-    opacity:.75;
-    border-radius:1px;
-    transform-origin:bottom;
-    animation:pulse 2.6s ease-in-out infinite;
+    display:block; flex:1 1 auto; min-width:2px;
+    background:var(--signal); opacity:.75; border-radius:1px;
+    transform-origin:bottom; animation:pulse 2.6s ease-in-out infinite;
   }
   @keyframes pulse{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.42)}}
-  @media (prefers-reduced-motion: reduce){ .strip i{animation:none} }
 
-  .caption{
-    font-family:var(--mono);
-    font-size:11px;
-    color:var(--ink-soft);
-    margin-top:8px;
-    letter-spacing:.02em;
-  }
+  .caption{font-family:var(--mono); font-size:11px; color:var(--ink-soft); margin-top:8px; letter-spacing:.02em;}
 
   section{margin-top:44px;}
   .sec-label{
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--ink-soft);
-    padding-bottom:8px;
-    border-bottom:1px solid var(--rule);
-    margin-bottom:18px;
+    font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-soft); padding-bottom:8px; border-bottom:1px solid var(--rule); margin-bottom:18px;
+    display:flex; justify-content:space-between; gap:12px;
   }
+  .sec-label .hint{color:var(--spark);}
   h2{font-size:26px; font-weight:600; letter-spacing:-.01em;}
   h2 + p{margin-top:12px;}
   section > p + p{margin-top:14px;}
 
   .inputs{
-    list-style:none;
-    margin:22px 0 0;
-    padding:0;
-    display:grid;
-    gap:1px;
-    background:var(--rule);
-    border:1px solid var(--rule);
-    border-radius:3px;
-    overflow:hidden;
+    list-style:none; margin:22px 0 0; padding:0; display:grid; gap:1px;
+    background:var(--rule); border:1px solid var(--rule); border-radius:3px; overflow:hidden;
   }
-  .inputs li{
-    background:var(--panel);
-    padding:14px 16px;
-    display:grid;
-    grid-template-columns:1fr;
-    gap:4px 14px;
-  }
-  .inputs b{
-    font-family:var(--mono);
-    font-weight:500;
-    font-size:11px;
-    letter-spacing:.1em;
-    text-transform:uppercase;
-    color:var(--signal);
-  }
+  .inputs li{background:var(--panel); padding:14px 16px; display:grid; grid-template-columns:1fr; gap:4px 14px;}
+  .inputs b{font-family:var(--mono); font-weight:500; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--signal);}
   .inputs span{font-size:15px;}
-  .inputs em{
-    font-family:var(--mono);
-    font-style:normal;
-    font-size:12px;
-    color:var(--ink-soft);
-  }
+  .inputs em{font-family:var(--mono); font-style:normal; font-size:12px; color:var(--ink-soft);}
   @media (min-width:560px){
     .inputs li{grid-template-columns:104px 1fr;}
     .inputs b{padding-top:4px;}
-    .inputs span, .inputs em{grid-column:2;}
+    .inputs span,.inputs em{grid-column:2;}
   }
 
+  /* ---------- sound lab ---------- */
+  .lab{border:1px solid var(--rule); border-radius:4px; background:var(--panel); overflow:hidden; box-shadow:var(--shadow);}
+  .chips{
+    display:flex; gap:8px; padding:14px; overflow-x:auto; scrollbar-width:none;
+    background:var(--panel-2); border-bottom:1px solid var(--rule);
+  }
+  .chips::-webkit-scrollbar{display:none}
+  .chip{
+    flex:0 0 auto; background:var(--panel); border:1px solid var(--rule); border-radius:999px;
+    padding:8px 15px; font-size:14px; font-weight:500; line-height:1.2;
+    transition:transform .12s ease, background .2s ease, border-color .2s ease, color .2s ease;
+  }
+  .chip small{display:block; font-family:var(--mono); font-size:10px; color:var(--ink-faint); letter-spacing:.06em;}
+  .chip:hover{border-color:var(--signal); transform:translateY(-1px);}
+  .chip:active{transform:scale(.95);}
+  .chip[aria-pressed="true"]{background:var(--signal); border-color:var(--signal); color:#fff;}
+  .chip[aria-pressed="true"] small{color:rgba(255,255,255,.72);}
+  :root:not([data-theme="light"]) .chip[aria-pressed="true"],
+  :root[data-theme="dark"] .chip[aria-pressed="true"]{color:#08130F;}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .chip[aria-pressed="true"] small{color:rgba(8,19,15,.66);}
+  }
+  :root[data-theme="dark"] .chip[aria-pressed="true"] small{color:rgba(8,19,15,.66);}
+
+  .scope{
+    display:flex; align-items:flex-end; gap:2px; height:96px; padding:12px 14px;
+    background:var(--panel-2); border-bottom:1px solid var(--rule);
+  }
+  .scope i{
+    display:block; flex:1 1 auto; min-width:2px; height:12%;
+    background:var(--signal); opacity:.8; border-radius:1px;
+    transition:height .18s cubic-bezier(.22,1,.36,1);
+  }
+  .lab.thinking .scope i{opacity:.35;}
+
+  .readout{padding:16px 16px 18px; display:grid; gap:14px;}
+  .says{
+    border:1px dashed var(--rule); border-radius:4px; padding:14px;
+    background:var(--panel-2);
+  }
+  .says .who{
+    font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--ink-faint); margin-bottom:6px;
+  }
+  .says .quote{font-family:var(--display); font-size:22px; font-weight:600; line-height:1.25;}
+  .meter{margin-top:10px; display:grid; gap:5px;}
+  .meter .bar{height:7px; border-radius:999px; background:var(--rule); overflow:hidden;}
+  .meter .bar span{display:block; height:100%; border-radius:999px; background:var(--signal); width:0; transition:width .6s cubic-bezier(.22,1,.36,1);}
+  .meter .bar.real span{background:var(--warn);}
+  .meter .lab-row{display:flex; justify-content:space-between; font-family:var(--mono); font-size:10.5px; letter-spacing:.05em; color:var(--ink-soft);}
+
+  .truth{display:grid; gap:10px;}
+  .truth div{display:grid; grid-template-columns:auto 1fr; gap:10px; font-size:14.5px; color:var(--ink-soft);}
+  .truth div::before{font-family:var(--mono); font-size:11px; letter-spacing:.08em;}
+  .truth .real::before{content:"IS"; color:var(--warn);}
+  .truth .blind::before{content:"NOT"; color:var(--ink-faint);}
+  .truth b{color:var(--ink); font-weight:700;}
+  .specs{
+    font-family:var(--mono); font-size:11px; color:var(--ink-faint);
+    border-top:1px solid var(--rule); padding-top:10px; letter-spacing:.03em;
+  }
+
+  /* ---------- ledger with toggles ---------- */
   .ledger{list-style:none; margin:20px 0 0; padding:0; display:grid; gap:12px;}
   .ledger li{
-    background:var(--panel);
-    border:1px solid var(--rule);
-    border-left:3px solid var(--tone);
-    border-radius:3px;
-    padding:14px 16px;
-    box-shadow:var(--shadow);
+    background:var(--panel); border:1px solid var(--rule); border-left:3px solid var(--tone);
+    border-radius:3px; padding:14px 16px; box-shadow:var(--shadow);
+    transition:box-shadow .2s ease, transform .12s ease, border-color .2s ease;
   }
+  .ledger li.picked{box-shadow:var(--lift); border-color:var(--tone); transform:translateY(-1px);}
   .pros{--tone:var(--signal); --wash:var(--signal-wash);}
   .cons{--tone:var(--warn); --wash:var(--warn-wash);}
-  .ledger h3{
-    font-family:var(--body);
-    font-size:15px;
-    font-weight:700;
-    letter-spacing:-.005em;
-    line-height:1.35;
-  }
+  .ledger h3{font-family:var(--body); font-size:15px; font-weight:700; letter-spacing:-.005em; line-height:1.35;}
   .ledger p{margin-top:5px; font-size:14.5px; color:var(--ink-soft);}
   .tag{
-    display:inline-block;
-    font-family:var(--mono);
-    font-size:10px;
-    letter-spacing:.1em;
-    text-transform:uppercase;
-    padding:2px 7px;
-    border-radius:2px;
-    margin-bottom:8px;
-    color:var(--tone);
-    background:var(--wash);
+    display:inline-block; font-family:var(--mono); font-size:10px; letter-spacing:.1em;
+    text-transform:uppercase; padding:2px 7px; border-radius:2px; margin-bottom:8px;
+    color:var(--tone); background:var(--wash);
   }
+  .pick{
+    margin-top:11px; background:transparent; border:1px solid var(--rule); border-radius:999px;
+    padding:5px 13px; font-size:12.5px; font-weight:500; color:var(--ink-soft);
+    display:inline-flex; align-items:center; gap:7px;
+    transition:background .18s ease, color .18s ease, border-color .18s ease, transform .12s ease;
+  }
+  .pick .dot{width:7px; height:7px; border-radius:50%; border:1.5px solid var(--tone); transition:background .18s ease;}
+  .pick:hover{border-color:var(--tone);}
+  .pick:active{transform:scale(.96);}
+  .pick[aria-pressed="true"]{background:var(--wash); color:var(--tone); border-color:var(--tone);}
+  .pick[aria-pressed="true"] .dot{background:var(--tone);}
 
-  .verdict{
-    margin-top:44px;
-    padding:22px 20px;
-    border:1px solid var(--rule);
-    border-radius:3px;
-    background:var(--panel);
+  /* ---------- quiz ---------- */
+  .quiz{display:grid; gap:14px; margin-top:20px;}
+  .q{background:var(--panel); border:1px solid var(--rule); border-radius:4px; padding:16px; box-shadow:var(--shadow);}
+  .q .scene{font-size:15px;}
+  .q .claim{
+    margin-top:10px; font-family:var(--mono); font-size:12px; color:var(--spark);
+    background:var(--spark-wash); border-radius:3px; padding:7px 10px; letter-spacing:.02em;
   }
+  .opts{display:grid; gap:8px; margin-top:12px;}
+  .opt{
+    text-align:left; background:var(--panel-2); border:1px solid var(--rule); border-radius:3px;
+    padding:11px 13px; font-size:14.5px; line-height:1.45;
+    transition:border-color .18s ease, background .18s ease, transform .12s ease;
+  }
+  .opt:hover:not(:disabled){border-color:var(--signal);}
+  .opt:active:not(:disabled){transform:scale(.99);}
+  .opt:disabled{cursor:default;}
+  .opt.right{border-color:var(--signal); background:var(--signal-wash); color:var(--signal); font-weight:700;}
+  .opt.wrong{border-color:var(--warn); background:var(--warn-wash); color:var(--warn); text-decoration:line-through;}
+  .why{
+    margin-top:12px; font-size:14px; color:var(--ink-soft);
+    border-left:2px solid var(--signal); padding-left:12px;
+  }
+  .why b{color:var(--ink);}
+
+  /* ---------- verdict ---------- */
+  .verdict{margin-top:44px; padding:22px 20px; border:1px solid var(--rule); border-radius:4px; background:var(--panel);}
   .verdict h2{font-size:22px;}
   .verdict p{margin-top:12px; color:var(--ink-soft); font-size:15px;}
   .verdict p strong{color:var(--ink); font-weight:700;}
-
+  .tally{
+    margin-top:14px; font-family:var(--mono); font-size:12px; color:var(--ink-soft);
+    background:var(--panel-2); border:1px solid var(--rule); border-radius:3px; padding:10px 12px;
+  }
   .rules{list-style:none; margin:16px 0 0; padding:0; display:grid; gap:10px;}
-  .rules li{
-    display:grid;
-    grid-template-columns:auto 1fr;
-    gap:10px;
-    font-size:14.5px;
-    color:var(--ink-soft);
-  }
-  .rules li::before{
-    content:"\2192";
-    font-family:var(--mono);
-    color:var(--signal);
-  }
+  .rules li{display:grid; grid-template-columns:auto 1fr; gap:10px; font-size:14.5px; color:var(--ink-soft);}
+  .rules li::before{content:"\2192"; font-family:var(--mono); color:var(--signal);}
 
   footer{
-    margin-top:48px;
-    padding-top:16px;
+    margin-top:48px; padding-top:16px; padding-bottom:24px; border-top:1px solid var(--rule);
+    font-family:var(--mono); font-size:11px; line-height:1.7; color:var(--ink-soft); letter-spacing:.02em;
+  }
+
+  /* ---------- sticky scale ---------- */
+  .dock{
+    position:fixed; left:0; right:0; bottom:0; z-index:20;
+    background:color-mix(in srgb, var(--panel) 92%, transparent);
+    backdrop-filter:blur(10px);
     border-top:1px solid var(--rule);
-    font-family:var(--mono);
-    font-size:11px;
-    line-height:1.7;
-    color:var(--ink-soft);
-    letter-spacing:.02em;
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));
+  }
+  .dock-in{
+    max-width:680px; margin-inline:auto;
+    display:flex; align-items:center; gap:14px;
+  }
+  .scale{width:104px; flex:0 0 auto; height:38px; position:relative;}
+  .beam{
+    position:absolute; left:6px; right:6px; top:13px; height:3px; border-radius:2px;
+    background:var(--ink-faint); transform:rotate(var(--tilt,0deg));
+    transition:transform .45s cubic-bezier(.34,1.4,.5,1);
+  }
+  .pan{
+    position:absolute; top:50%; width:26px; height:26px; border-radius:50%;
+    display:grid; place-items:center; font-family:var(--mono); font-size:11px; font-weight:500;
+    transform:translateY(-50%);
+  }
+  .pan.l{left:-6px; background:var(--signal-wash); color:var(--signal); border:1px solid var(--signal);}
+  .pan.r{right:-6px; background:var(--warn-wash); color:var(--warn); border:1px solid var(--warn);}
+  .fulcrum{position:absolute; left:50%; top:14px; width:2px; height:22px; background:var(--rule); transform:translateX(-50%);}
+  .dock-text{min-width:0;}
+  .dock-text .lead{font-size:14px; font-weight:700; line-height:1.3;}
+  .dock-text .sub{font-family:var(--mono); font-size:10.5px; color:var(--ink-soft); letter-spacing:.04em;}
+
+  body{padding-bottom:86px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important; transition-duration:.01ms!important;}
   }
 </style>
 </head>
 <body>
+
 <div class="wrap">
 
-  <p class="eyebrow">Bioacoustics &middot; Ethology &middot; Explainer</p>
+  <p class="eyebrow">Bioacoustics &middot; Ethology &middot; Tap to explore</p>
   <h1>Pet Animal Translator</h1>
-  <p class="standfirst">A device that listens to a bark, watches a tail, and tells you what your animal means. Here is what the idea actually is, what it can genuinely do for you, and where it quietly breaks.</p>
+  <p class="standfirst">A device that listens to a bark, watches a tail, and tells you what your animal means. Tap through it yourself &mdash; the gap between what it claims and what it actually knows is the whole story.</p>
 
   <div class="strip" aria-hidden="true">
     <i style="height:38%; animation-delay:-.1s"></i><i style="height:64%; animation-delay:-.9s"></i>
@@ -279,10 +321,10 @@
   <p class="caption">A dog&rsquo;s alarm bark sits near 250&ndash;1000&nbsp;Hz. A cat&rsquo;s purr runs at 25&ndash;30&nbsp;Hz. A translator has to read both.</p>
 
   <section>
-    <p class="sec-label">01 &nbsp;/&nbsp; Introduction</p>
+    <p class="sec-label"><span>01 &nbsp;/&nbsp; Introduction</span></p>
     <h2>What a pet translator is</h2>
     <p>A pet animal translator is a collar, a camera, or a phone app that records what an animal does &mdash; the sounds it makes, how it holds its body, what is happening around it &mdash; and turns that into something a human can read: a phrase, an emotion label, or a stress score.</p>
-    <p>It is not a dictionary. Dogs and cats do not speak in words that map one-to-one onto ours. What these systems really do is pattern recognition: a model is trained on thousands of recorded barks, meows and postures that humans have already labelled, and it reports which known pattern your animal&rsquo;s behaviour most resembles. The output sentence &mdash; &ldquo;I want to go out&rdquo; &mdash; is the product&rsquo;s packaging. The measurement underneath is a probability.</p>
+    <p>It is not a dictionary. Dogs and cats do not speak in words that map one-to-one onto ours. These systems do pattern recognition: a model trained on thousands of labelled barks, meows and postures reports which known pattern your animal most resembles. The sentence it prints is the packaging. The measurement underneath is a probability.</p>
     <ul class="inputs">
       <li>
         <b>Vocal</b>
@@ -303,9 +345,37 @@
   </section>
 
   <section>
-    <p class="sec-label">02 &nbsp;/&nbsp; Advantages</p>
+    <p class="sec-label"><span>02 &nbsp;/&nbsp; Sound lab</span><span class="hint">tap a sound &rarr;</span></p>
+    <h2>Run one through it</h2>
+    <p>Pick a sound. The lab shows you what a translator app would print, how confident it would look while printing it &mdash; and what the sound genuinely encodes underneath.</p>
+
+    <div class="lab" id="lab">
+      <div class="chips" id="chips" role="group" aria-label="Choose an animal sound"></div>
+      <div class="scope" id="scope" aria-hidden="true"></div>
+      <div class="readout">
+        <div class="says">
+          <p class="who">The app prints</p>
+          <p class="quote" id="quote">&ldquo;Someone is at the door!&rdquo;</p>
+          <div class="meter">
+            <div class="lab-row"><span id="conf-label">App confidence</span><span id="conf-val">91%</span></div>
+            <div class="bar"><span id="conf-bar" style="width:91%"></span></div>
+            <div class="lab-row"><span>What the sound alone can settle</span><span id="real-val">35%</span></div>
+            <div class="bar real"><span id="real-bar" style="width:35%"></span></div>
+          </div>
+        </div>
+        <div class="truth">
+          <div class="real"><p id="truth-real">An alarm bark encodes <b>high arousal and a request to come or to keep back</b> &mdash; never who is out there or why.</p></div>
+          <div class="blind"><p id="truth-blind">The microphone cannot tell a courier from a family member returning home.</p></div>
+        </div>
+        <p class="specs" id="specs">DOG &middot; 250&ndash;1000 Hz fundamental &middot; bursts of 0.15&ndash;0.30 s &middot; 2&ndash;4 per second</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-label"><span>03 &nbsp;/&nbsp; Advantages</span><span class="hint">tap what matters to you</span></p>
     <h2>What it genuinely gives you</h2>
-    <ul class="ledger pros">
+    <ul class="ledger pros" id="pros">
       <li>
         <span class="tag">Health</span>
         <h3>It catches changes before you do</h3>
@@ -340,9 +410,9 @@
   </section>
 
   <section>
-    <p class="sec-label">03 &nbsp;/&nbsp; Disadvantages</p>
+    <p class="sec-label"><span>04 &nbsp;/&nbsp; Disadvantages</span><span class="hint">tap what worries you</span></p>
     <h2>Where it breaks</h2>
-    <ul class="ledger cons">
+    <ul class="ledger cons" id="cons">
       <li>
         <span class="tag">Accuracy</span>
         <h3>There is no shared vocabulary to translate into</h3>
@@ -381,9 +451,17 @@
     </ul>
   </section>
 
+  <section>
+    <p class="sec-label"><span>05 &nbsp;/&nbsp; Quiz</span><span class="hint">3 questions</span></p>
+    <h2>Can you beat the app?</h2>
+    <p>Three moments where a translator reports something confident. Pick what is actually going on.</p>
+    <div class="quiz" id="quiz"></div>
+  </section>
+
   <div class="verdict">
     <h2>So &mdash; is it worth it?</h2>
     <p>Treated as a <strong>monitor</strong>, a pet translator is genuinely useful: it counts, logs and flags things human attention cannot cover around the clock. Treated as a <strong>translator</strong>, it overstates what it knows &mdash; and that is where the harm sits.</p>
+    <p class="tally" id="tally">Nothing picked yet &mdash; tap the advantages and disadvantages above and this scale tips for you.</p>
     <ul class="rules">
       <li>Trust the trend line, not the sentence.</li>
       <li>Check what it claims against what you can see in the animal.</li>
@@ -396,7 +474,315 @@
     Pet Animal Translator &mdash; introduction, advantages and disadvantages.<br>
     Frequency ranges are typical published values for domestic dogs and cats; individual animals vary.
   </footer>
-
 </div>
+
+<div class="dock">
+  <div class="dock-in">
+    <div class="scale" aria-hidden="true">
+      <div class="fulcrum"></div>
+      <div class="beam" id="beam" style="--tilt:0deg">
+        <span class="pan l" id="pan-l">0</span>
+        <span class="pan r" id="pan-r">0</span>
+      </div>
+    </div>
+    <div class="dock-text">
+      <p class="lead" id="dock-lead">Your scale is level</p>
+      <p class="sub" id="dock-sub">0 for &middot; 0 against &middot; quiz 0/3</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- sound lab ---------------- */
+  var SOUNDS = [
+    {
+      id:"bark", name:"Bark", note:"dog", shape:"burst",
+      quote:"“Someone is at the door!”", conf:91, real:35,
+      isText:"An alarm bark encodes <b>high arousal and a request to come or to keep back</b> — never who is out there or why.",
+      blind:"The microphone cannot tell a courier from a family member returning home.",
+      specs:"DOG · 250–1000 Hz fundamental · bursts of 0.15–0.30 s · 2–4 per second"
+    },
+    {
+      id:"whine", name:"Whine", note:"dog", shape:"rise",
+      quote:"“I am sad — give me a cuddle.”", conf:84, real:28,
+      isText:"A whine is <b>care-seeking</b>: it says something is wanted, not what. Pain, nausea and a full bladder produce the same rising pitch.",
+      blind:"It cannot separate &lsquo;I missed you&rsquo; from &lsquo;my stomach hurts&rsquo; — and one of those needs a vet tonight.",
+      specs:"DOG · 300–1200 Hz, rising contour · 0.5–2.0 s · irregular spacing"
+    },
+    {
+      id:"growl", name:"Growl", note:"dog", shape:"low",
+      quote:"“Aggression detected.”", conf:88, real:22,
+      isText:"A growl is <b>a request for distance</b> — honest, useful communication. In a tug game the identical sound means the opposite.",
+      blind:"Without seeing the rope, the bone or the loose bouncy posture, play and threat are the same waveform.",
+      specs:"DOG · 60–250 Hz, low harmonics · 1–3 s · continuous"
+    },
+    {
+      id:"meow", name:"Meow", note:"cat", shape:"arch",
+      quote:"“Feed me, human.”", conf:79, real:31,
+      isText:"Adult cats barely meow at each other. The meow is <b>aimed at people and learned per household</b> — your cat invented its own with you.",
+      blind:"A model trained on other people’s cats has never heard the dialect yours built for your kitchen.",
+      specs:"CAT · 500–800 Hz · 0.5–1.0 s · directed at humans, rarely at cats"
+    },
+    {
+      id:"purr", name:"Purr", note:"cat", shape:"ripple",
+      quote:"“Content and relaxed.”", conf:95, real:18,
+      isText:"Purring is <b>self-soothing</b>. Cats also purr while injured, while giving birth, and while dying — the sound is not a happiness meter.",
+      blind:"On a vet table, that 95% reading is at its most confident exactly when it is most wrong.",
+      specs:"CAT · 25–30 Hz · continuous, both breath phases · felt as much as heard"
+    },
+    {
+      id:"hiss", name:"Hiss", note:"cat", shape:"noise",
+      quote:"“Angry cat — badly behaved.”", conf:93, real:44,
+      isText:"A hiss is <b>fear, not malice</b>: a warning offered before a scratch, and the politest thing a frightened cat can do.",
+      blind:"Punishing the hiss removes the warning and keeps the fear — the app has no idea what frightened her.",
+      specs:"CAT · broadband noise, 2–10 kHz · 0.4–1.5 s · defensive"
+    }
+  ];
+
+  var BARS = 34;
+  var scope = document.getElementById("scope");
+  var chipsBox = document.getElementById("chips");
+  var lab = document.getElementById("lab");
+  var bars = [];
+  var i;
+
+  for(i = 0; i < BARS; i++){
+    var b = document.createElement("i");
+    scope.appendChild(b);
+    bars.push(b);
+  }
+
+  function heights(shape){
+    var out = [], t, v;
+    for(var n = 0; n < BARS; n++){
+      t = n / (BARS - 1);
+      switch(shape){
+        case "burst": v = (n % 7 < 3) ? 0.55 + 0.45 * Math.abs(Math.sin(n * 2.1)) : 0.10 + 0.08 * Math.abs(Math.cos(n)); break;
+        case "rise":  v = 0.18 + 0.72 * t * (0.72 + 0.28 * Math.abs(Math.sin(n * 0.9))); break;
+        case "low":   v = 0.16 + 0.20 * Math.abs(Math.sin(n * 0.55)); break;
+        case "arch":  v = 0.14 + 0.80 * Math.sin(Math.PI * t) * (0.80 + 0.20 * Math.abs(Math.cos(n * 1.4))); break;
+        case "ripple":v = 0.20 + 0.10 * Math.sin(n * 1.3) + 0.06 * Math.sin(n * 0.4); break;
+        default:      v = 0.35 + 0.55 * Math.random(); break; /* noise */
+      }
+      out.push(Math.max(0.08, Math.min(1, v)));
+    }
+    return out;
+  }
+
+  function paint(shape){
+    var hs = heights(shape);
+    for(var n = 0; n < BARS; n++){
+      (function(n){
+        setTimeout(function(){ bars[n].style.height = (hs[n] * 100).toFixed(1) + "%"; }, n * 9);
+      })(n);
+    }
+  }
+
+  var el = {
+    quote: document.getElementById("quote"),
+    conf: document.getElementById("conf-val"),
+    confBar: document.getElementById("conf-bar"),
+    real: document.getElementById("real-val"),
+    realBar: document.getElementById("real-bar"),
+    isText: document.getElementById("truth-real"),
+    blind: document.getElementById("truth-blind"),
+    specs: document.getElementById("specs")
+  };
+
+  var timer = null;
+  function select(s, chip){
+    var all = chipsBox.querySelectorAll(".chip");
+    for(var n = 0; n < all.length; n++){ all[n].setAttribute("aria-pressed", all[n] === chip ? "true" : "false"); }
+
+    lab.classList.add("thinking");
+    el.confBar.style.width = "0%";
+    el.realBar.style.width = "0%";
+    el.quote.textContent = "analysing…";
+    paint(s.shape);
+
+    clearTimeout(timer);
+    timer = setTimeout(function(){
+      lab.classList.remove("thinking");
+      el.quote.textContent = s.quote;
+      el.conf.textContent = s.conf + "%";
+      el.real.textContent = s.real + "%";
+      el.confBar.style.width = s.conf + "%";
+      el.realBar.style.width = s.real + "%";
+      el.isText.innerHTML = s.isText;
+      el.blind.innerHTML = s.blind;
+      el.specs.innerHTML = s.specs;
+    }, 480);
+  }
+
+  SOUNDS.forEach(function(s, idx){
+    var c = document.createElement("button");
+    c.type = "button";
+    c.className = "chip";
+    c.setAttribute("aria-pressed", idx === 0 ? "true" : "false");
+    c.innerHTML = s.name + "<small>" + s.note + "</small>";
+    c.addEventListener("click", function(){ select(s, c); });
+    chipsBox.appendChild(c);
+  });
+  paint(SOUNDS[0].shape);
+
+  /* ---------------- pick tally ---------------- */
+  var picked = {pro:0, con:0};
+
+  function addPickers(listId, kind, label){
+    var items = document.querySelectorAll("#" + listId + " li");
+    for(var n = 0; n < items.length; n++){
+      (function(li){
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "pick";
+        btn.setAttribute("aria-pressed", "false");
+        btn.innerHTML = '<span class="dot"></span>' + label;
+        btn.addEventListener("click", function(){
+          var on = btn.getAttribute("aria-pressed") === "true";
+          btn.setAttribute("aria-pressed", on ? "false" : "true");
+          li.classList.toggle("picked", !on);
+          picked[kind] += on ? -1 : 1;
+          render();
+        });
+        li.appendChild(btn);
+      })(items[n]);
+    }
+  }
+  addPickers("pros", "pro", "This matters to me");
+  addPickers("cons", "con", "This worries me");
+
+  /* ---------------- quiz ---------------- */
+  var QS = [
+    {
+      scene:"A stranger leans over your dog. The dog rolls onto its back, legs stiff, eyes showing white at the corners.",
+      claim:"Collar reports: HAPPY — inviting belly rubs · 88%",
+      opts:["She wants a belly rub","She is asking the stranger to stop","She is about to play"],
+      answer:1,
+      why:"<b>Appeasement, not an invitation.</b> A relaxed belly-up dog is loose and wiggly. Stiff legs and whale eye turn the same posture into &lsquo;please back off&rsquo; — and a hand reaching in anyway is how bites happen."
+    },
+    {
+      scene:"Your cat is on the vet’s table, crouched low, purring steadily.",
+      claim:"App reports: RELAXED — enjoying the visit · 95%",
+      opts:["She is relaxed","She is self-soothing under stress","She is hungry"],
+      answer:1,
+      why:"<b>Purring is not a happiness meter.</b> Cats purr to calm themselves when injured, in labour and in pain. This is the reading most likely to be wrong exactly when it looks most certain."
+    },
+    {
+      scene:"Two dogs tug a rope, growling hard, taking turns letting go and bowing at each other.",
+      claim:"Monitor reports: AGGRESSION DETECTED · 84%",
+      opts:["Separate them at once","Read their bodies — bouncy and taking turns is play","Trust the monitor"],
+      answer:1,
+      why:"<b>The growl is identical; the situation is not.</b> Play bows, loose bodies and turn-taking mark a game. A collar that hears only sound cannot see any of that — which is why it flags a friendship as a fight."
+    }
+  ];
+
+  var answered = 0, correct = 0;
+  var quizBox = document.getElementById("quiz");
+
+  QS.forEach(function(q){
+    var card = document.createElement("div");
+    card.className = "q";
+
+    var scene = document.createElement("p");
+    scene.className = "scene";
+    scene.textContent = q.scene;
+    card.appendChild(scene);
+
+    var claim = document.createElement("p");
+    claim.className = "claim";
+    claim.textContent = q.claim;
+    card.appendChild(claim);
+
+    var opts = document.createElement("div");
+    opts.className = "opts";
+    var btns = [];
+
+    q.opts.forEach(function(text, idx){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "opt";
+      b.textContent = text;
+      b.addEventListener("click", function(){
+        if(b.disabled){ return; }
+        btns.forEach(function(x, xi){
+          x.disabled = true;
+          if(xi === q.answer){ x.classList.add("right"); }
+          else if(xi === idx){ x.classList.add("wrong"); }
+        });
+        var why = document.createElement("p");
+        why.className = "why";
+        why.innerHTML = q.why;
+        card.appendChild(why);
+        answered++;
+        if(idx === q.answer){ correct++; }
+        render();
+      });
+      btns.push(b);
+      opts.appendChild(b);
+    });
+
+    card.appendChild(opts);
+    quizBox.appendChild(card);
+  });
+
+  /* ---------------- scale + verdict ---------------- */
+  var beam = document.getElementById("beam");
+  var panL = document.getElementById("pan-l");
+  var panR = document.getElementById("pan-r");
+  var lead = document.getElementById("dock-lead");
+  var sub  = document.getElementById("dock-sub");
+  var tally = document.getElementById("tally");
+
+  function render(){
+    var diff = picked.pro - picked.con;
+    var tilt = Math.max(-15, Math.min(15, -diff * 4));
+    beam.style.setProperty("--tilt", tilt + "deg");
+    panL.textContent = picked.pro;
+    panR.textContent = picked.con;
+
+    if(picked.pro === 0 && picked.con === 0){
+      lead.textContent = "Your scale is level";
+    } else if(diff >= 3){
+      lead.textContent = "Leaning: worth wearing";
+    } else if(diff > 0){
+      lead.textContent = "Leaning: cautiously yes";
+    } else if(diff === 0){
+      lead.textContent = "Evenly balanced";
+    } else if(diff > -3){
+      lead.textContent = "Leaning: not yet";
+    } else {
+      lead.textContent = "Leaning: stick to watching";
+    }
+
+    sub.textContent = picked.pro + " for · " + picked.con + " against · quiz " + correct + "/" + QS.length;
+
+    var parts = [];
+    if(picked.pro || picked.con){
+      parts.push("You picked " + picked.pro + " advantage" + (picked.pro === 1 ? "" : "s") +
+                 " and " + picked.con + " drawback" + (picked.con === 1 ? "" : "s") + ".");
+    }
+    if(answered === QS.length){
+      if(correct === QS.length){
+        parts.push("You out-read the app 3 times out of 3 — which is the argument for learning the animal rather than buying the collar.");
+      } else if(correct === 0){
+        parts.push("The app beat you 3 times out of 3 — and every one of those confident readings was wrong. That is the risk in one sentence.");
+      } else {
+        parts.push("You out-read the app " + correct + " times out of 3; the confident wrong answers are the ones that cost an animal a vet visit.");
+      }
+    } else if(answered > 0){
+      parts.push("Quiz so far: " + correct + " of " + answered + " read correctly.");
+    }
+    if(!parts.length){
+      parts.push("Nothing picked yet — tap the advantages and disadvantages above and this scale tips for you.");
+    }
+    tally.textContent = parts.join(" ");
+  }
+
+  render();
+})();
+</script>
 </body>
 </html>
